@@ -1,0 +1,266 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 #ec489966; }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 10px #ec489900; }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 #ec489900; }
+}
+
+@keyframes wave {
+  0%, 100% { height: 8px; }
+  50% { height: 18px; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes recording {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+/* Utility classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.6s ease-out;
+}
+
+.pulse {
+  animation: pulse 1.2s infinite;
+  color: #ec4899;
+}
+
+.recording {
+  animation: recording 1.5s infinite;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced Mobile Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  /* Adjust typography for mobile */
+  h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+  }
+  
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  h4 {
+    font-size: 1.25rem !important;
+  }
+  
+  h5 {
+    font-size: 1.1rem !important;
+  }
+  
+  h6 {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  /* Further reduce typography for small screens */
+  h1 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  h4 {
+    font-size: 1.1rem !important;
+  }
+  
+  h5 {
+    font-size: 1rem !important;
+  }
+  
+  h6 {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Touch-friendly button sizes */
+@media (max-width: 768px) {
+  .MuiButton-root {
+    min-height: 44px !important;
+    padding: 12px 24px !important;
+  }
+  
+  .MuiIconButton-root {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  .MuiTextField-root {
+    margin-bottom: 16px !important;
+  }
+}
+
+.waveform {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  margin-left: 4px;
+}
+.wave-bar {
+  width: 4px;
+  height: 100%;
+  margin: 0 1px;
+  background: #ec4899;
+  border-radius: 2px;
+  animation: wave 1s infinite;
+}
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: 0.2s; }
+.wave-bar:nth-child(3) { animation-delay: 0.4s; }
+
+@media (max-width: 600px) {
+  .MuiPaper-root {
+    max-height: none !important;
+    padding: 8px !important;
+  }
+  .App {
+    padding: 0 !important;
+  }
+  
+  /* Full screen chat on mobile */
+  .chat-container {
+    height: 100vh !important;
+    max-height: 100vh !important;
+  }
+  
+  /* Hide scrollbars on mobile for cleaner look */
+  .chat-messages {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .chat-messages::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Sticky input area */
+  .chat-input-area {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 10 !important;
+    background: rgba(26,26,46,0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
+  }
+} 

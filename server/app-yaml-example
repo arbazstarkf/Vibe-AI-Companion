@@ -1,0 +1,18 @@
+runtime: nodejs20
+env: standard
+instance_class: F2
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 3
+env_variables:
+  FIREBASE_PROJECT_ID: "vibeapp-ec737"
+  FIREBASE_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\n\n-----END PRIVATE KEY-----\n"
+  FIREBASE_CLIENT_EMAIL: ""
+  GOOGLE_CLOUD_PROJECT_ID: ""
+  GOOGLE_CLOUD_KEY_FILE: ""
+  GOOGLE_CLOUD_STORAGE_BUCKET: ""
+  PORT: "8080"
+  NODE_ENV: "production"
+  FRONTEND_URL: ""
+  GOOGLE_GENERATIVE_AI_API_KEY: ""
