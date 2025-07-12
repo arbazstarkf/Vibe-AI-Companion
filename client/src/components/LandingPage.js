@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Typography, Container, Card, CardContent, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const features = [
   {
@@ -24,6 +25,13 @@ const features = [
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { currentUser, loading } = useAuth();
+
+  React.useEffect(() => {
+    if (!loading && currentUser) {
+      navigate('/chat', { replace: true });
+    }
+  }, [loading, currentUser, navigate]);
 
   const handleGetStarted = () => {
     navigate('/auth');
