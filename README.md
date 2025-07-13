@@ -7,12 +7,11 @@
 - **Smart Voice Interaction**: Natural voice conversations with AI responses
 - **Text-to-Speech**: AI responses converted to audio for immersive experience
 - **Voice Recording**: Browser-based audio recording and playback using WebRTC
-- **User Authentication**: Firebase authentication with Google sign-in
+- **User Authentication**: Authentication with Firebase
 - **Chat History**: Persistent conversation history stored in Firestore
 - **Responsive Design**: Modern UI built with Material-UI
-- **Cloud Storage**: Google Cloud Storage for audio file management (App Engine compatible, no local file writes)
-- **Server Health Monitoring**: Real-time server status and service availability
-- **Error Handling**: Comprehensive error management and retry mechanisms
+- **Cloud Storage**: Google Cloud Storage Bucket for audio file management
+
 
 ## 🛠️ Tech Stack
 
@@ -31,15 +30,8 @@
 - **Google Cloud Speech-to-Text** - Voice recognition
 - **Google Cloud Text-to-Speech** - Voice synthesis
 - **Google Generative AI (Gemini)** - AI conversation
-- **Google Cloud Storage** - File storage (no local fallback, App Engine compatible)
-- **Firebase** - Server-side Firebase integration
+- **Google Cloud Storage** - File storage
 
-### Infrastructure
-- **Google Cloud Platform** - Cloud services
-- **Firebase** - Authentication and Firestore database
-- **CORS** - Cross-origin resource sharing
-- **Helmet** - Security headers
-- **Rate Limiting** - API protection
 
 ## 📋 Prerequisites
 
@@ -47,7 +39,7 @@ Before you begin, ensure you have the following installed:
 
 - **Node.js** (v18 or higher)
 - **npm** (v8 or higher)
-- **Google Cloud Platform** account
+- **Google Cloud Platform** account and SDK
 - **Firebase** project
 - **Git**
 
@@ -93,7 +85,7 @@ npm install
    - **Speech-to-Text API**
    - **Text-to-Speech API**
    - **Cloud Storage API**
-   - **Generative AI API**
+   - **App Engine Admin API**
 
 #### Create Service Account
 
@@ -101,27 +93,26 @@ npm install
 2. Create a new service account
 3. Assign the following roles:
    - **Cloud Speech Client**
-   - **Cloud Text-to-Speech API User**
+   - **Cloud Speech-to-Text service agent**
    - **Storage Object Admin**
    - **Storage Object Viewer**
    - **App Engine Admin**
-   - **Vertex AI User**
+
 4. Create and download the JSON key file
 
 #### Create Cloud Storage Bucket
 
 1. Go to **Cloud Storage** > **Buckets**
 2. Create a new bucket for storing audio files
-3. Make it publicly readable for audio file access
 
 ### 4. Firebase Setup
 
 #### Create Firebase Project
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project
+2. Create a new project or choose your existing Google Cloud Project
 3. Enable **Authentication** with Google sign-in
-4. Create a **Firestore Database** in test mode
+4. Create a **Firestore Database**
 
 #### Get Firebase Configuration
 
@@ -129,11 +120,41 @@ npm install
 2. Scroll down to **Your apps** section
 3. Add a web app and copy the configuration
 
-### 5. Environment Configuration
+### 5. Get Gemini API Key from Google AI Studio
+
+1. **Go to Google AI Studio**  
+   Visit [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+2. **Sign in with your Google Account**  
+   Use the Google account you want to associate with your API usage.
+
+3. **Create a New API Key**  
+   - Click on the **"Create API Key"** button.
+   - If prompted, review and accept the terms of service.
+
+4. **Copy Your API Key**  
+   - Once the key is generated, click the copy icon to copy your API key.
+
+5. **Add the API Key to Your Environment Variables**  
+   - In your `server/.env` file, add:
+     ```
+     GOOGLE_GENERATIVE_AI_API_KEY=your-gemini-api-key
+     ```
+   - Replace `your-gemini-api-key` with the key you copied.
+
+6. **Set API Key in App Engine**  
+   - Ensure the `app.yaml` file includes:
+     ```yaml
+     env_variables:
+       GOOGLE_GENERATIVE_AI_API_KEY: "your-gemini-api-key"
+     ```
+
+
+### 6. Environment Configuration
 
 #### Server Environment Variables
 
-Create a `.env` file in the `server` directory (do **not** commit this file!):
+Create a `.env` file in the `server` directory :
 
 ```bash
 # Firebase Configuration
@@ -157,7 +178,7 @@ GOOGLE_GENERATIVE_AI_API_KEY=your-gemini-api-key
 
 #### Client Environment Variables
 
-Create a `.env` file in the `client` directory (do **not** commit this file!):
+Create a `.env` file in the `client` directory :
 
 ```bash
 REACT_APP_FIREBASE_API_KEY=your-firebase-api-key
@@ -169,11 +190,11 @@ REACT_APP_FIREBASE_APP_ID=your-app-id
 REACT_APP_API_URL=https://your-app-engine-project-id.uc.r.appspot.com/api
 ```
 
-### 6. Place Service Account Key
+### 7. Place Service Account Key
 
-Locate your downloaded Google Cloud service account JSON key file and update the `GOOGLE_CLOUD_KEY_FILE` path in your server `.env` file. **Do not commit this file to git!**
+Locate your downloaded Google Cloud service account JSON key file and update the `GOOGLE_CLOUD_KEY_FILE` path in your server `.env` file.
 
-### 7. App Engine & Firebase Hosting Deployment
+### 8. App Engine & Firebase Hosting Deployment
 
 #### Backend (App Engine)
 
@@ -198,7 +219,7 @@ Locate your downloaded Google Cloud service account JSON key file and update the
      FRONTEND_URL: "https://your-firebase-app.web.app"
      GOOGLE_GENERATIVE_AI_API_KEY: "your-gemini-api-key"
    ```
-   (Do **not** commit real secrets to git. Use placeholder values in public repos.)
+   
 2. Deploy:
    ```bash
    gcloud app deploy
@@ -243,29 +264,11 @@ Vibe-AI-Companion/
 ├── server/                # Node.js backend
 │   ├── routes/           # API routes
 │   ├── keys/             # Service account keys (gitignored)
-│   ├── uploads/          # (Unused in production)
 │   ├── index.js          # Server entry point
 │   └── package.json
 ├── package.json          # Root package.json
 └── README.md
 ```
-
-## 🐛 Troubleshooting
-
-- **CORS errors:** Ensure backend CORS config matches your Firebase Hosting URL (no trailing slash).
-- **500 errors:** Check App Engine logs for stack traces. Most common cause is missing permissions or misconfigured environment variables.
-- **Audio not working:** Ensure Cloud Storage bucket is public and service account has write access.
-- **Secrets in git:** Remove with `git rm --cached` and add to `.gitignore`.
-
-## 📝 Current Implementation Status
-
-### ✅ Working Features
-- **Voice Recording**: WebRTC-based audio recording and playback
-- **Text-to-Speech**: AI responses converted to audio
-- **Chat History**: Persistent conversations in Firestore
-- **User Authentication**: Firebase Google sign-in
-- **Error Handling**: Comprehensive error management
-- **Responsive UI**: Modern Material-UI design
 
 ## 📄 License
 
@@ -273,25 +276,18 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-**Arbaz Khan** - Created for the **Edunet Microsoft AI internship** program by **AICTE**
+**Arbaz Khan**
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 ## 📞 Support
 
-For support and questions:
-- Check the troubleshooting section
-- Review the API documentation
-- Open an issue on GitHub
+For support and troubleshooting:
+
+- Ask Gemini [Gemini](ttps://gemini.google.com/app)
+- Check the [Google Cloud Documentation](https://cloud.google.com/docs)
+- Check the [Firebase Documentation](https://firebase.google.com/docs)
+- Check the [Google AI Studio Documentation](https://aistudio.google.com/app/docs)
+
 
 ---
 
-**Note**: This application requires active Google Cloud account. **Never commit secrets or private keys to git.**
-
-**Current Version**: 1.0.0 - Stable working version with core voice interaction features.
