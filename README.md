@@ -43,6 +43,18 @@ Before you begin, ensure you have the following installed:
 - **Firebase** project
 - **Git**
 
+#### Install Google Cloud SDK
+
+1. Download and install the Google Cloud SDK from the [official documentation](https://cloud.google.com/sdk/docs/install).
+2. After installation, initialize the SDK and log in with your Google account:
+   ```bash
+   gcloud init
+   ```
+3. Make sure the `gcloud` command is available in your terminal by running:
+   ```bash
+   gcloud --version
+   ```
+
 ## 🔧 Setup Instructions
 
 ### 1. Clone the Repository
@@ -239,15 +251,34 @@ Locate your downloaded Google Cloud service account JSON key file and update the
 
 ## 🚀 Running the Application
 
-- **Frontend:** https://your-firebase-app.web.app
-- **Backend:** https://your-app-engine-project-id.uc.r.appspot.com
+### Running Locally
 
-## 🛡️ Security & Best Practices
 
-- **Never commit secrets, private keys, or service account files to git.**
-- Use `.gitignore` to exclude `.env`, `keys/`, and any secret files.
-- Use environment variables for all credentials and secrets.
-- All TTS audio is stored in Google Cloud Storage (no local file writes).
+#### 1. Start the Backend (Server)
+
+Open a terminal and run:
+```bash
+cd server
+npm install        # Install dependencies (first time only)
+npm start          # Starts the backend server on http://localhost:8080
+```
+
+#### 2. Start the Frontend (Client)
+
+Open a new terminal window and run:
+```bash
+cd client
+npm install        # Install dependencies (first time only)
+npm start          # Starts the React app on http://localhost:3000
+```
+
+#### 3. Access the App
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend API: [http://localhost:8080](http://localhost:8080)
+
+Make sure you have configured your `.env` files in both `server/` and `client/` directories as described above.
+
+
 
 ## 📁 Project Structure
 
@@ -263,7 +294,7 @@ Vibe-AI-Companion/
 │   └── package.json
 ├── server/                # Node.js backend
 │   ├── routes/           # API routes
-│   ├── keys/             # Service account keys (gitignored)
+│   ├── keys/             # Service account keys
 │   ├── index.js          # Server entry point
 │   └── package.json
 ├── package.json          # Root package.json
@@ -283,11 +314,28 @@ This project is licensed under the MIT License.
 
 For support and troubleshooting:
 
-- Ask Gemini [Gemini](ttps://gemini.google.com/app)
+- Ask Gemini [Gemini AI](https://gemini.google.com/app)
 - Check the [Google Cloud Documentation](https://cloud.google.com/docs)
 - Check the [Firebase Documentation](https://firebase.google.com/docs)
 - Check the [Google AI Studio Documentation](https://aistudio.google.com/app/docs)
+- Check the [Google Cloud SDK Documentation](https://cloud.google.com/sdk/docs)
 
 
 ---
+
+## 🚀 Future Improvements
+
+We are planning several enhancements to make VIBE AI Companion even better:
+
+- **Context Retention:**
+  - Improve the AI's ability to remember and reference previous parts of the conversation, enabling more natural and coherent interactions.
+
+- **Personalities and Voices:**
+  - Introduce customizable AI personalities and a variety of voice options, allowing users to personalize their companion's style and sound.
+
+- **Support for More Languages:**
+  - Expand language support so users can interact with the AI in multiple languages, making the app accessible to a broader audience.
+
+- **UI Improvements:**
+  - Enhance the user interface for a more intuitive, visually appealing, and user-friendly experience across all devices.
 
